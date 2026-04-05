@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login with Video Background</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; }
+
+    body, html { height:100%; overflow:hidden; }
+
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      z-index:-1;
+    }
+
+    /* Overlay Login Form */
+    .login-container {
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%, -50%);
+      background: rgba(255,255,255,0.1);
+      padding:40px;
+      border-radius:15px;
+      backdrop-filter: blur(10px);
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      width:300px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100%{ transform:translate(-50%,-50%) translateY(0px); }
+      50%{ transform:translate(-50%,-50%) translateY(-15px); }
+    }
+
+    h2 { text-align:center; color:white; margin-bottom:30px; text-shadow:1px 1px 4px rgba(0,0,0,0.7); }
+
+    .input-box { position:relative; margin-bottom:25px; }
+    .input-box input {
+      width:100%; padding:10px 10px 10px 5px;
+      background:transparent; border:none; border-bottom:2px solid white;
+      color:white; font-size:16px; outline:none;
+    }
+    .input-box label {
+      position:absolute; top:10px; left:5px; color:white;
+      font-size:16px; pointer-events:none;
+      transition:0.3s ease all;
+    }
+    .input-box input:focus ~ label,
+    .input-box input:not(:placeholder-shown) ~ label {
+      top:-15px; font-size:12px; color:#ffdd59;
+    }
+
+    .login-btn {
+      width:100%; padding:10px; border:none; border-radius:25px;
+      background:#ffdd59; color:#333; font-weight:bold; cursor:pointer;
+      transition:0.3s ease all; box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    }
+    .login-btn:hover {
+      transform:scale(1.05); background:#ffc107;
+      box-shadow:0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    ::placeholder { color:transparent; }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Login Form -->
+  <div class="login-container">
+    <h2>Login</h2>
+    <form>
+      <div class="input-box">
+        <input type="text" placeholder="Username" required>
+        <label>Username</label>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <label>Password</label>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+
+  <script>
+    const video = document.getElementById('bg-video');
+
+    // Automatically unmute video on first interaction
+    function enableSound() {
+      video.muted = false;
+      video.play();
+      window.removeEventListener('click', enableSound);
+      window.removeEventListener('touchstart', enableSound);
+      window.removeEventListener('keydown', enableSound);
+    }
+
+    window.addEventListener('click', enableSound);
+    window.addEventListener('touchstart', enableSound);
+    window.addEventListener('keydown', enableSound);
+  </script>
+
+</body>
+</html>
